@@ -1,50 +1,80 @@
-body{
-    background: linear-gradient(to right, #ffafbd,#ffc3a0);
-    font-family: 'Segoe UI', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
-.card{
-    background: white;
-    padding: 30px;
-    border-radius: 30px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    text-align: center;
-    max-width: 400px;
+/* Genel ayarlar */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #0b1e3d; /* lacivert */
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
 }
 
-h1,h2{
-    color: #e91363;
+/* Gece gökyüzü konteyneri */
+.night-sky {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(to top, #0b1e3d, #1a3b6d);
+  overflow: hidden;
 }
 
-button{
-    background: #e91363;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-    margin-top: 20px;
-    font-size: 16px;
+/* Yıldızlar */
+#stars {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
-button:hover{
-    background: #d81b60;
+/* Her bir yıldız */
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+  animation: twinkle 3s infinite ease-in-out;
 }
 
-.hidden{
-    display: none;
+/* Yıldız parıldama animasyonu */
+@keyframes twinkle {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
 }
 
-#message{
-    margin-top: 20px;
-    animation: fadeIn 2s ease-in-out;
+/* Ay */
+.moon {
+  position: absolute;
+  top: 20%;
+  left: 75%;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle at 30% 30%, #fff, #cfd7e0);
+  border-radius: 50%;
+  box-shadow:
+    10px 0 10px rgba(255, 255, 255, 0.3),
+    inset -5px -5px 15px rgba(255, 255, 255, 0.7);
+  opacity: 0;
+  animation: fadeInMoon 3s forwards;
+  animation-delay: 3s;
 }
 
-@keyframes fadeIn {
-    from{opacity: 0; transform: translateY(20px);}
-    to{opacity: 1; transform: translateY(0);}
+/* Ay görünür animasyonu */
+@keyframes fadeInMoon {
+  to { opacity: 1; }
+}
+
+/* Mesaj */
+#message {
+  position: absolute;
+  bottom: 15%;
+  width: 100%;
+  text-align: center;
+  font-size: 2.5rem;
+  opacity: 0;
+  animation: fadeInMessage 3s forwards;
+  animation-delay: 6.5s;
+}
+
+/* Mesaj görünür animasyonu */
+@keyframes fadeInMessage {
+  to { opacity: 1; }
 }
