@@ -1,19 +1,284 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ay & Güneş</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aşk Temalı Süper Sürpriz</title>
+<style>
+  /* Genel */
+  body, html {
+    margin: 0; padding: 0;
+    height: 100%;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    overflow: hidden;
+  }
+  
+  #container {
+    background: rgba(255 255 255 / 0.1);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 0 50px #ff4d7a88;
+    max-width: 480px;
+    perspective: 900px;
+  }
+  
+  h1 {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+    text-shadow: 0 0 15px #ff3366;
+  }
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    text-shadow: 0 0 12px #ff6699;
+  }
+  
+  #heart-scene {
+    width: 280px;
+    height: 280px;
+    margin: 0 auto 40px;
+    position: relative;
+    transform-style: preserve-3d;
+  }
+
+  .heart {
+    position: absolute;
+    width: 80px;
+    height: 72px;
+    background: linear-gradient(135deg, #ff1e56, #ff6e96);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    box-shadow:
+      0 0 15px #ff1e56,
+      inset 0 5px 10px #ff5e8d,
+      0 15px 25px #ff1e56aa;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  .heart::before,
+  .heart::after {
+    content: "";
+    position: absolute;
+    width: 80px;
+    height: 72px;
+    background: linear-gradient(135deg, #ff1e56, #ff6e96);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    box-shadow:
+      0 0 15px #ff1e56,
+      inset 0 5px 10px #ff5e8d;
+  }
+  .heart::before {
+    top: -40px;
+    left: 0;
+    transform: rotate(-45deg);
+    transform-origin: center bottom;
+  }
+  .heart::after {
+    top: 0;
+    left: 40px;
+    transform: rotate(45deg);
+    transform-origin: center bottom;
+  }
+  
+  /* Farklı konumlarda 3 kalp */
+  .heart:nth-child(1) {
+    top: 50px; left: 20px;
+    animation-delay: 0s;
+  }
+  .heart:nth-child(2) {
+    top: 20px; left: 180px;
+    animation-delay: 0.5s;
+  }
+  .heart:nth-child(3) {
+    top: 150px; left: 110px;
+    animation-delay: 1s;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { transform: scale(1) rotateY(0deg) rotateX(0deg);}
+    50% { transform: scale(1.2) rotateY(15deg) rotateX(10deg);}
+  }
+  
+  /* Buton */
+  #surpriseBtn {
+    background: #ff3366;
+    color: white;
+    font-weight: 700;
+    font-size: 1.4rem;
+    padding: 15px 50px;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    box-shadow: 0 0 25px #ff3366cc;
+    transition: background 0.3s ease;
+  }
+  #surpriseBtn:hover {
+    background: #ff4d7a;
+    box-shadow: 0 0 30px #ff4d7acc;
+  }
+  
+  /* Sürpriz bölümü */
+  #surpriseSection {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, #360033, #0b8793);
+    color: #fff;
+    z-index: 1000;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    text-align: center;
+  }
+  
+  #surpriseSection.active {
+    display: flex;
+  }
+  
+  #surpriseSection h2 {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    text-shadow: 0 0 25px #ff6699;
+  }
+  
+  #surpriseSection p {
+    font-size: 1.6rem;
+    margin-bottom: 40px;
+    max-width: 600px;
+    text-shadow: 0 0 15px #ffa6c9;
+  }
+  
+  #surpriseHearts {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 40px;
+    width: 80%;
+  }
+  
+  .small-heart {
+    width: 60px;
+    height: 54px;
+    background: linear-gradient(135deg, #ff69b4, #ff1493);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    position: relative;
+    box-shadow:
+      0 0 12px #ff69b4,
+      inset 0 4px 8px #ff1493;
+    animation: beat 1.2s ease-in-out infinite;
+  }
+  .small-heart::before,
+  .small-heart::after {
+    content: "";
+    position: absolute;
+    width: 60px;
+    height: 54px;
+    background: linear-gradient(135deg, #ff69b4, #ff1493);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    box-shadow:
+      0 0 12px #ff69b4,
+      inset 0 4px 8px #ff1493;
+  }
+  .small-heart::before {
+    top: -30px;
+    left: 0;
+    transform: rotate(-45deg);
+    transform-origin: center bottom;
+  }
+  .small-heart::after {
+    top: 0;
+    left: 30px;
+    transform: rotate(45deg);
+    transform-origin: center bottom;
+  }
+  
+  .small-heart:nth-child(even) {
+    animation-delay: 0.3s;
+  }
+  .small-heart:nth-child(odd) {
+    animation-delay: 0s;
+  }
+  
+  @keyframes beat {
+    0%, 100% {transform: scale(1);}
+    50% {transform: scale(1.15);}
+  }
+  
+  #backBtn {
+    background: #f48fb1;
+    color: #330029;
+    padding: 14px 40px;
+    border: none;
+    border-radius: 35px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    box-shadow: 0 0 15px #f48fb1;
+    transition: background 0.3s ease;
+  }
+  #backBtn:hover {
+    background: #ec407a;
+    box-shadow: 0 0 20px #ec407a;
+  }
+  
+</style>
 </head>
 <body>
-  <div class="sky">
-    <div class="stars"></div>
-    <div class="sun"></div>
-    <div class="moon"></div>
-    <p class="message">Beni ışığın ile aydınlattığın için teşekkür ederim balım ❤️</p>
+
+<div id="container" role="main" aria-label="Aşk temalı sürpriz ekranı">
+  <h1>Canım sevgilime  💖</h1>
+  <p>Bu kalpler sana olan sevgimi anlatmaya yetmez ama her biri kalbimden geliyor.</p>
+
+  <div id="heart-scene" aria-hidden="true">
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
   </div>
-    
-  <script src="script.js"></script>
+
+  <button id="surpriseBtn" aria-haspopup="dialog" aria-controls="surpriseSection">Süper Sürprizi Göster</button>
+</div>
+
+<section id="surpriseSection" role="dialog" aria-modal="true" aria-labelledby="surpriseTitle" aria-describedby="surpriseDesc">
+  <h2 id="surpriseTitle">Aşığım kızım sana</h2>
+  <p id="surpriseDesc">Senle konuştuğum her nefeste cenneti tadıyorum sanki bitanem :)</p>
+  
+  <div id="surpriseHearts" aria-hidden="true">
+    <div class="small-heart"></div>
+    <div class="small-heart"></div>
+    <div class="small-heart"></div>
+    <div class="small-heart"></div>
+    <div class="small-heart"></div>
+    <div class="small-heart"></div>
+  </div>
+  
+  <button id="backBtn">Geri Dön</button>
+</section>
+
+<script>
+  const surpriseBtn = document.getElementById('surpriseBtn');
+  const surpriseSection = document.getElementById('surpriseSection');
+  const container = document.getElementById('container');
+  const backBtn = document.getElementById('backBtn');
+
+  surpriseBtn.addEventListener('click', () => {
+    container.style.display = 'none';
+    surpriseSection.classList.add('active');
+    surpriseSection.focus();
+  });
+
+  backBtn.addEventListener('click', () => {
+    surpriseSection.classList.remove('active');
+    container.style.display = 'block';
+    surpriseBtn.focus();
+  });
+
+  surpriseSection.setAttribute('tabindex', '-1');
+</script>
+
 </body>
 </html>
