@@ -1,78 +1,218 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <title>Güneşle Aydınlık</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Dünyanın En İyi Hediyesi - Mobil Uyumlu</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
 
-    html, body {
-      height: 100%;
-      overflow: hidden;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #000;
-      transition: background-color 2s ease;
-    }
+  /* Reset */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  html, body {
+    height: 100%;
+    background: radial-gradient(ellipse at bottom, #0d1b2a 0%, #000000 100%);
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+  }
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
 
-    #container {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      position: relative;
-    }
+  /* YILDIZLAR */
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: twinkle 4s infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% {opacity: 0.8;}
+    50% {opacity: 0.2;}
+  }
 
-    #sun {
-      width: 150px;
-      height: 150px;
-      background-color: yellow;
-      border-radius: 50%;
-      box-shadow: 0 0 50px 10px yellow;
-      position: absolute;
-      top: 60%;
-      transform: translateY(-50%);
-      opacity: 0;
-      transition: opacity 2s ease, top 2s ease;
-    }
+  /* Farklı yıldız boyutları ve konumları, responsive */
+  .star:nth-child(1) { width: 0.8vmin; height: 0.8vmin; top: 10%; left: 20%; animation-delay: 0s;}
+  .star:nth-child(2) { width: 0.6vmin; height: 0.6vmin; top: 30%; left: 80%; animation-delay: 1.5s;}
+  .star:nth-child(3) { width: 0.5vmin; height: 0.5vmin; top: 50%; left: 40%; animation-delay: 3s;}
+  .star:nth-child(4) { width: 0.7vmin; height: 0.7vmin; top: 20%; left: 70%; animation-delay: 4.5s;}
+  .star:nth-child(5) { width: 0.55vmin; height: 0.55vmin; top: 60%; left: 10%; animation-delay: 6s;}
+  .star:nth-child(6) { width: 0.9vmin; height: 0.9vmin; top: 15%; left: 50%; animation-delay: 2s;}
+  .star:nth-child(7) { width: 0.65vmin; height: 0.65vmin; top: 40%; left: 60%; animation-delay: 5s;}
+  .star:nth-child(8) { width: 0.55vmin; height: 0.55vmin; top: 70%; left: 85%; animation-delay: 7.5s;}
+  .star:nth-child(9) { width: 0.7vmin; height: 0.7vmin; top: 35%; left: 25%; animation-delay: 3.5s;}
+  .star:nth-child(10) { width: 0.55vmin; height: 0.55vmin; top: 55%; left: 15%; animation-delay: 1s;}
 
-    #message {
-      color: white;
-      font-size: 2rem;
-      margin-top: 200px;
-      opacity: 0;
-      transition: opacity 2s ease;
-      text-shadow: 0 0 10px #fff, 0 0 20px #ffd700, 0 0 30px #fff000;
+  /* GÜNEŞ */
+  #sun {
+    position: absolute;
+    bottom: -20vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 25vmin;
+    height: 25vmin;
+    background: radial-gradient(circle at center, #fff200, #f9d71c 60%, #f7bb00 90%);
+    border-radius: 50%;
+    box-shadow:
+      0 0 60px 20px #f9d71c,
+      0 0 90px 35px #f7bb00;
+    filter: drop-shadow(0 0 15px #f7bb00);
+    animation: sunRise 8s ease forwards;
+    z-index: 10;
+  }
+  /* Güneş ışınları */
+  #sun::before, #sun::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30vmin;
+    height: 30vmin;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow:
+      0 -90px 60px 10px #f7bb00,
+      0 90px 60px 10px #f7bb00,
+      90px 0 60px 10px #f7bb00,
+      -90px 0 60px 10px #f7bb00,
+      63px 63px 60px 10px #f7bb00,
+      -63px 63px 60px 10px #f7bb00,
+      63px -63px 60px 10px #f7bb00,
+      -63px -63px 60px 10px #f7bb00;
+    opacity: 0;
+    animation: raysAppear 3s forwards;
+    animation-delay: 5s;
+  }
+  #sun::after {
+    animation-delay: 6.5s;
+  }
+
+  @keyframes sunRise {
+    from { bottom: -20vh; }
+    to { bottom: 55vh; }
+  }
+  @keyframes raysAppear {
+    to { opacity: 1; }
+  }
+
+  /* Arka plan gökyüzü karanlıktan aydınlığa */
+  body {
+    animation: skyLight 8s ease forwards;
+    animation-delay: 3s;
+  }
+  @keyframes skyLight {
+    from { background: radial-gradient(ellipse at bottom, #0d1b2a 0%, #000000 100%); }
+    to { background: radial-gradient(ellipse at bottom, #87ceeb 0%, #3a8dd5 100%); }
+  }
+
+  /* MESAJ */
+  #message {
+    position: absolute;
+    bottom: 15vh;
+    width: 90vw;
+    max-width: 600px;
+    font-family: 'Great Vibes', cursive;
+    font-size: 7vw;
+    max-font-size: 38px;
+    color: #ffd700;
+    text-align: center;
+    opacity: 0;
+    text-shadow:
+      0 0 10px #fff,
+      0 0 20px #ffd700,
+      0 0 30px #ffcc00,
+      0 0 40px #ffaa00,
+      0 0 50px #ff9900,
+      0 0 60px #ff8800;
+    animation-fill-mode: forwards;
+  }
+  .showMessage {
+    animation: messageGlow 3s ease forwards;
+  }
+  @keyframes messageGlow {
+    0%, 100% {
+      opacity: 1;
+      text-shadow:
+        0 0 10px #fff,
+        0 0 20px #ffd700,
+        0 0 30px #ffcc00,
+        0 0 40px #ffaa00,
+        0 0 50px #ff9900,
+        0 0 60px #ff8800;
     }
-  </style>
+    50% {
+      opacity: 1;
+      text-shadow:
+        0 0 20px #fff,
+        0 0 40px #fff,
+        0 0 50px #ffcc00,
+        0 0 60px #ffaa00,
+        0 0 70px #ff9900,
+        0 0 80px #ff8800;
+    }
+  }
+</style>
 </head>
 <body>
-  <div id="container">
-    <div id="sun"></div>
-    <div id="message">İşte sen de hayatımı böyle aydınlattın BİTANEMMM❤️‍🔥❤️‍🔥😘</div>
-  </div>
 
-  <script>
-    window.onload = () => {
-      const body = document.body;
-      const sun = document.getElementById("sun");
-      const message = document.getElementById("message");
+  <!-- YILDIZLAR -->
+  <div class="star"></div>
+  <div class="star"></div>
+  <div class="star"></div>
+  <div class="star"></div>
+  <div class="star"></div>
+  <div class="star"></div>
+  <div class="star"></div>
+  <div class="star"></div>
+  <div class="star"></div>
+  <div class="star"></div>
 
+  <div id="sun"></div>
+  <div id="message"></div>
+
+<script>
+  const messages = [
+    "Sen de hayatımı böyle aydınlattın 💛",
+    "Seni her gördüğümde tekrar aşık oluyorum 🌞",
+    "Gözlerin güneşim gibi parlıyor ✨",
+    "Kalbim seni düşündükçe ısınıyor 🔥",
+    "Sen benim hayatımdaki en parlak ışık 🌟",
+    "Her sabah seni düşünerek uyanıyorum ☀️",
+    "Seninle hayat bambaşka bir renk alıyor 🎨",
+    "Sonsuza kadar birlikte parlayalım 💫"
+  ];
+
+  const messageEl = document.getElementById('message');
+
+  function showMessage(index) {
+    if(index >= messages.length) return;
+    messageEl.textContent = messages[index];
+    messageEl.classList.add('showMessage');
+
+    setTimeout(() => {
+      messageEl.classList.remove('showMessage');
       setTimeout(() => {
-        sun.style.opacity = "1";
-        sun.style.top = "20%";
-        body.style.backgroundColor = "#87CEFA"; // Gök mavisi
-
-        setTimeout(() => {
-          message.style.opacity = "1";
-        }, 2000);
+        showMessage(index + 1);
       }, 1000);
-    };
-  </script>
+    }, 3500);
+  }
+
+  window.onload = () => {
+    // Mesajları güneş doğduktan sonra başlatıyoruz (sunRise 8s + 1s buffer)
+    setTimeout(() => {
+      showMessage(0);
+    }, 9000);
+  };
+</script>
 </body>
 </html>
