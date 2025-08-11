@@ -3,446 +3,297 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kübram — Senden Özür Dilerim</title>
-    <meta name="description" content="Kübra'ya özel, kalpten bir özür mesajı.">
-
+    <title>Sana Özel Kalbim</title>
     <style>
-        /* CSS Değişkenleri ile Renk Paleti */
         :root {
-            --renk-ana-zemin: #fefefe; /* Krem Beyaz */
-            --renk-vurgu: #ffc0cb; /* Açık Pembe */
-            --renk-metin: #4c4c4c; /* Yumuşak Gri */
-            --renk-ikincil-metin: #8c8c8c; /* Daha Yumuşak Gri */
-            --renk-buton: #ff85a2; /* Daha Koyu Pembe */
-            --renk-buton-hover: #ff698d;
-            --renk-buton-metin: #fff;
-            --renk-konfeti-1: #ffb6c1;
-            --renk-konfeti-2: #add8e6;
-            --renk-konfeti-3: #90ee90;
+            --primary-color: #ff6b81; /* Kırmızımsı pembe */
+            --secondary-color: #f7d794; /* Açık krem */
+            --background-color: #fff;
+            --text-color: #4b4b4b;
         }
 
-        /* prefers-reduced-motion Desteği */
-        @media (prefers-reduced-motion: reduce) {
-            :root {
-                --animasyon-suresi: 0s;
-            }
-            .kalp, .typewriter-metin {
-                animation: none !important;
-            }
-        }
-
-        * {
-            box-sizing: border-box;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-        }
-
-        html, body {
-            height: 100%;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            color: var(--renk-metin);
-            background-color: var(--renk-ana-zemin);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+            box-sizing: border-box;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
         .container {
-            max-width: 600px;
-            width: 90%;
-            padding: 2rem;
-            border-radius: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #f9ca24 100%);
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: moveHearts 10s infinite linear;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1.2em;
+            font-style: italic;
+        }
+
+        nav {
             background-color: #fff;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
             display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        nav ul li {
             position: relative;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            color: var(--renk-vurgu);
-            letter-spacing: -1px;
-            font-weight: 700;
-        }
-        
-        .kalp {
-            font-size: 3rem;
-            color: var(--renk-vurgu);
-            animation: kalpAtisi 1.5s infinite;
-            margin-bottom: 1rem;
+        nav ul li a {
+            display: block;
+            padding: 15px 25px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease, background-color 0.3s ease;
         }
 
-        @keyframes kalpAtisi {
+        nav ul li a:hover {
+            color: #fff;
+            background-color: var(--primary-color);
+        }
+
+        .section {
+            padding: 60px 0;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section h2 {
+            font-size: 2.5em;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .section p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .messages-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+            background-color: #fce4ec;
+            border-radius: 10px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .message-box {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .message-box:hover {
+            transform: translateY(-5px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: var(--primary-color);
+            color: #fff;
+            font-style: italic;
+        }
+
+        .surprise-message {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #fff;
+            animation: pulse 2s infinite ease-in-out;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        /* Anahtar kare animasyonları */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes moveHearts {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(50px, -50px) rotate(45deg); }
+            50% { transform: translate(0, -100px) rotate(90deg); }
+            75% { transform: translate(-50px, -50px) rotate(135deg); }
+            100% { transform: translate(0, 0) rotate(180deg); }
+        }
+
+        @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
 
-        .typewriter-metin {
-            min-height: 150px;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            font-weight: 400;
-            white-space: pre-wrap;
-            overflow: hidden;
-            border-right: 2px solid var(--renk-vurgu);
-            padding-right: 5px;
-            animation: 
-                typing 3s steps(40, end) forwards,
-                blink-caret .75s step-end infinite;
-            text-align: left;
-            margin: 0 auto;
-            width: 100%;
-            max-width: 500px;
-        }
+        /* Mobil uyumluluk için medya sorguları */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
 
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 100%; }
-        }
+            header p {
+                font-size: 1em;
+            }
 
-        @keyframes blink-caret {
-            from, to { border-color: transparent; }
-            50% { border-color: var(--renk-vurgu); }
-        }
-
-        .soru-alani {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .soru-metni {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-
-        .butonlar {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        .buton {
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            border-radius: 50px;
-            color: var(--renk-buton-metin);
-            background-color: var(--renk-buton);
-            transition: transform 0.2s, background-color 0.2s;
-            text-decoration: none;
-        }
-
-        .buton:hover {
-            background-color: var(--renk-buton-hover);
-            transform: scale(1.05);
-        }
-
-        .konusma-alani, .tesekkur-alani {
-            display: none;
-            gap: 1rem;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .konusma-alani h2, .tesekkur-alani h2 {
-            font-size: 1.5rem;
-            color: var(--renk-vurgu);
-        }
-
-        textarea {
-            width: 100%;
-            max-width: 400px;
-            height: 100px;
-            padding: 0.75rem;
-            border-radius: 10px;
-            border: 1px solid var(--renk-ikincil-metin);
-            font-family: inherit;
-            resize: none;
-        }
-
-        .footer {
-            font-size: 0.9rem;
-            color: var(--renk-ikincil-metin);
-            margin-top: 1rem;
-        }
-
-        /* Müzik Butonu */
-        .muzik-kontrol {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 1rem;
-            background: rgba(255, 255, 255, 0.5);
-            border: 1px solid var(--renk-vurgu);
-            border-radius: 50px;
-            padding: 0.5rem;
-            cursor: pointer;
-            z-index: 10;
-        }
-
-        .muzik-kontrol:hover {
-            background: rgba(255, 255, 255, 0.8);
-        }
-
-        /* Konfeti Canvas */
-        #konfeti-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 9999;
-            pointer-events: none;
-            display: none; /* Varsayılan olarak gizli */
-        }
-
-        /* Giriş Modal'ı */
-        .modal-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-        }
-
-        .modal-content {
-            background: #fff;
-            padding: 2rem;
-            border-radius: 15px;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .modal-content h2 {
-            color: var(--renk-vurgu);
-            margin-bottom: 1rem;
-        }
-
-        .modal-content p {
-            margin-bottom: 1.5rem;
-            color: var(--renk-metin);
+            nav ul {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div id="modal" class="modal-bg">
-        <div class="modal-content">
-            <h2 id="modal-baslik">Kurban olduğum'a</h2>
-            <p>Gözlerine kurban olduğum senden böyle özür dilemek istedim gönül isterdi ki kapına çiçekle geliyim ama şuan maalesef mümkün değil:)</p>
-            <button id="modal-baslat-butonu" class="buton">Başlayalım</button>
-        </div>
-    </div>
+    <header>
+        <h1>Canım Sevgilim</h1>
+        <p>Hayatımın en güzel hediyesi... Her şeyimsin!</p>
+    </header>
 
-    <div class="container" role="main" aria-live="polite">
-        <button id="muzik-toggle" class="muzik-kontrol" aria-label="Müzik Aç/Kapa">
-            <span id="muzik-icon">🎵</span>
-        </button>
+    <nav>
+        <ul>
+            <li><a href="#home">Anasayfa</a></li>
+            <li><a href="#memories">Anılar</a></li>
+            <li><a href="#messages">Mesajlar</a></li>
+        </ul>
+    </nav>
 
-        <h1 id="baslik-kisi">Canım Sevgilim Senden Özür Dilerim</h1>
-
-        <span class="kalp" role="img" aria-label="Kalp">💖</span>
-
-        <p id="mesaj-alani" class="typewriter-metin" aria-atomic="true">
-            Kurban olduğum, seni kırdığım için derin bir pişmanlık duyuyorum. Sözlerimin/ davranışımın seni nasıl etkilediğini düşündükçe içim parçalara ayrılıyor. Hatalıydım ve bunun sorumluluğunu alıyorum. Seni yeniden güldürebilmek için elimden geleni yapmak istiyorum.
-        </p>
-
-        <div id="soru-alani" class="soru-alani" style="display: none;">
-            <p class="soru-metni">Beni affettin mi?</p>
-            <div class="butonlar">
-                <button id="evet-butonu" class="buton" aria-label="Evet, affettim">Evet</button>
-                <button id="konusalim-butonu" class="buton" aria-label="Hayır, konuşalım">Konuşalım</button>
-            </div>
-        </div>
-
-        <div id="tesekkur-alani" class="tesekkur-alani">
-            <h2>Çok teşekkür ederim!</h2>
-            <p>Bu, benim için dünyalara bedel. Seni çok seviyorum ve bu hatayı telafi edeceğim.</p>
-            <p>İyi ki varsın bitanem seni çok seviyorum, varlığın gözlerimi parlatmaya, sözlerin beni tekrar var etmeye yeter affettiğin için teşekkürler :)</p>
-        </div>
+    <main class="container">
         
-        <div id="konusma-alani" class="konusma-alani">
-            <h2>Özür dilerim sevgilim</h2>
-            <p>Kübram seni kırmak asla istemedim özür dilerim yaptığım bu hata için seni üzdüğüm için sen benim herşeyimsin seni çok seviyorum bitanem 😘🫂 :)</p>
-            <textarea placeholder="Buraya kısa bir not yazabilirsin..." aria-label="Kübra'nın cevap notu"></textarea>
-            <button class="buton">Gönder</button>
-        </div>
+        <section id="home" class="section active">
+            <h2>Hoş Geldin, Aşkım</h2>
+            <p>Bu site, bizim için özel olan her şeyi bir araya getirmek için hazırlandı. Her bir satır, her bir kelime, sana olan sevgimin bir yansıması.</p>
+        </section>
 
-        <p class="footer">
-            Bu sayfa senin için sevgiyle hazırlandı.
-        </p>
-    </div>
+        <section id="memories" class="section">
+            <h2>Birlikte Yaşadığımız Anılar</h2>
+            <p>Hayatımızdaki en değerli anlardan bazıları...</p>
+            <div class="messages-container">
+                <div class="message-box">
+                    <h3>İlk Buluşmamız</h3>
+                    <p>O gün kalbim o kadar hızlı atıyordu ki, sanki yerinden fırlayacaktı. Gözlerine ilk baktığım anı hiç unutamam, her şey o an başladı.</p>
+                </div>
+                <div class="message-box">
+                    <h3>En Komik Anımız</h3>
+                    <p>Yağmurun altında sırılsıklam olup bir yandan da kahkahalarla güldüğümüz o an... O anı düşündükçe hala gülümsüyorum.</p>
+                </div>
+                </div>
+        </section>
+        
+        <section id="messages" class="section">
+            <h2>Benim İçin Ne İfade Ediyorsun</h2>
+            <p>Sana söylemek istediğim, içimden geçenler...</p>
+            <div class="messages-container">
+                <div class="message-box">
+                    <h3>Hayatımın Anlamı</h3>
+                    <p>Sen benim için sadece bir sevgili değil, aynı zamanda en iyi arkadaşım, en büyük destekçimsin. Hayatım seninle daha anlamlı.</p>
+                </div>
+                <div class="message-box">
+                    <h3>Sonsuz Aşk</h3>
+                    <p>Sana olan sevgim her geçen gün daha da büyüyor. Bu sonsuz bir aşk hikayesi ve ben her anını seninle yaşamayı seviyorum.</p>
+                </div>
+                </div>
+        </section>
 
-    <canvas id="konfeti-canvas"></canvas>
+    </main>
+
+    <footer>
+        <p>Her şeyim, sana olan sevgim sonsuz.</p>
+        <div class="surprise-message">Seni çok seviyorum! ❤️</div>
+    </footer>
 
     <script>
-        // ## KİŞİSELLEŞTİRME: SES
-        const ozurSesi = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'); // Farklı bir linkle değiştirilebilir.
-        let isMuzikCaliyor = false;
-
         document.addEventListener('DOMContentLoaded', () => {
-            const modal = document.getElementById('modal');
-            const modalBaslatButonu = document.getElementById('modal-baslat-butonu');
-            const mesajAlani = document.getElementById('mesaj-alani');
-            const soruAlani = document.getElementById('soru-alani');
-            const evetButonu = document.getElementById('evet-butonu');
-            const konusalimButonu = document.getElementById('konusalim-butonu');
-            const tesekkurAlani = document.getElementById('tesekkur-alani');
-            const konusmaAlani = document.getElementById('konusma-alani');
-            const muzikToggle = document.getElementById('muzik-toggle');
-            const muzikIcon = document.getElementById('muzik-icon');
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('nav ul li a');
 
-            // Typewriter efekti
-            function typewriterYaz(metinElementi, metin, bitisCallback) {
-                let i = 0;
-                metinElementi.textContent = "";
-                metinElementi.style.animation = "none";
-                metinElementi.offsetWidth; // DOM'u yeniden çizmeye zorla
-                metinElementi.style.animation = "typing 3s steps(40, end) forwards";
+            // Scroll animasyonu için
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
 
-                const yaziInterval = setInterval(() => {
-                    if (i < metin.length) {
-                        metinElementi.textContent += metin.charAt(i);
-                        i++;
-                    } else {
-                        clearInterval(yaziInterval);
-                        if (bitisCallback) bitisCallback();
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
                     }
-                }, 50); // Yazma hızı
+                });
+            }, observerOptions);
 
-                // prefers-reduced-motion desteği
-                if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-                    metinElementi.textContent = metin;
-                    if (bitisCallback) bitisCallback();
-                }
-            }
+            sections.forEach(section => {
+                observer.observe(section);
+            });
 
-            // Modal'ı kapat ve sayfayı başlat
-            modalBaslatButonu.addEventListener('click', () => {
-                modal.style.display = 'none';
-                typewriterYaz(mesajAlani, mesajAlani.textContent.trim(), () => {
-                    setTimeout(() => {
-                        soruAlani.style.display = 'flex';
-                        soruAlani.setAttribute('aria-live', 'polite');
-                    }, 1000);
+            // Sayfa içi navigasyon
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    
+                    window.scrollTo({
+                        top: targetSection.offsetTop - nav.offsetHeight,
+                        behavior: 'smooth'
+                    });
                 });
             });
 
-            // Müzik kontrolü
-            muzikToggle.addEventListener('click', () => {
-                if (isMuzikCalmiyor) {
-                    ozurSesi.pause();
-                    muzikIcon.textContent = '🎵';
-                } else {
-                    ozurSesi.play().catch(e => console.error("Müzik çalma hatası:", e));
-                    muzikIcon.textContent = '⏸️';
-                }
-                isMuzikCalmiyor = !isMuzikCalmiyor;
-            });
-            
-            // "Evet" butonuna tıklama
-            evetButonu.addEventListener('click', () => {
-                soruAlani.style.display = 'none';
-                tesekkurAlani.style.display = 'flex';
-                // Konfeti animasyonunu başlat
-                baslatKonfeti();
-                // Ekran okuyucuya bilgi ver
-                tesekkurAlani.setAttribute('aria-live', 'polite');
-            });
-
-            // "Konuşalım" butonuna tıklama
-            konusalimButonu.addEventListener('click', () => {
-                soruAlani.style.display = 'none';
-                konusmaAlani.style.display = 'flex';
-                // Ekran okuyucuya bilgi ver
-                konusmaAlani.setAttribute('aria-live', 'polite');
-            });
-
-
-            // Konfeti Animasyonu (Canvas)
-            const canvas = document.getElementById('konfeti-canvas');
-            const ctx = canvas.getContext('2d');
-            const konfetiSayisi = 100;
-            const konfetiler = [];
-            
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            window.addEventListener('resize', resizeCanvas, false);
-            resizeCanvas();
-
-            function Konfeti(x, y) {
-                this.x = x;
-                this.y = y;
-                this.boyut = Math.random() * 10 + 5;
-                this.donme = Math.random() * 360;
-                this.hizX = Math.random() * 5 - 2.5;
-                this.hizY = Math.random() * -5 - 5;
-                this.renk = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
-                this.aci = Math.random() * Math.PI * 2;
-                this.donmeHizi = Math.random() * 0.1 - 0.05;
-
-                this.guncelle = function() {
-                    this.hizY += 0.1; // Yerçekimi
-                    this.x += this.hizX;
-                    this.y += this.hizY;
-                    this.donme += this.donmeHizi;
-                };
-
-                this.ciz = function() {
-                    ctx.save();
-                    ctx.translate(this.x, this.y);
-                    ctx.rotate(this.donme);
-                    ctx.fillStyle = this.renk;
-                    ctx.fillRect(-this.boyut / 2, -this.boyut / 2, this.boyut, this.boyut);
-                    ctx.restore();
-                };
-            }
-
-            function baslatKonfeti() {
-                if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-                    return; // Animasyonu çalıştırma
-                }
-                
-                canvas.style.display = 'block';
-                konfetiler.length = 0; // Diziyi temizle
-                for (let i = 0; i < konfetiSayisi; i++) {
-                    konfetiler.push(new Konfeti(canvas.width / 2, canvas.height / 2));
-                }
-
-                function animasyonDongusu() {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                    for (let i = 0; i < konfetiler.length; i++) {
-                        konfetiler[i].guncelle();
-                        konfetiler[i].ciz();
-                    }
-
-                    // Konfetiler ekran dışına çıktığında temizle
-                    konfetiler = konfetiler.filter(c => c.y < canvas.height);
-
-                    if (konfetiler.length > 0) {
-                        requestAnimationFrame(animasyonDongusu);
-                    } else {
-                        canvas.style.display = 'none'; // Animasyon bittiğinde gizle
-                    }
-                }
-                animasyonDongusu();
-            }
         });
     </script>
 </body>
